@@ -23,13 +23,13 @@ def generate_users(user_count):
     users = []
 
     for _ in range(user_count):
-        users.append[{
+        users.append({
             'user_id': f'user_{fake.uuid4()[:8]}',
             'created_at': fake.date_time_between(start_date = '-1y', end_date = 'now').isoformat(),
             'country': random.choice(['CA', 'US', 'GB', 'AU', 'NZ']),
             'primary_currency': 'CAD',
             'risk_score': round(random.uniform(0, 0.2), 4)
-        }]
+        })
     
     return pd.DataFrame(users)
 
@@ -44,13 +44,13 @@ def generate_merchants(merchant_count):
     categories = ['grocery', 'dining', 'transportation', 'utilities', 'shopping', 'health', 'entertainment']
 
     for _ in range(merchant_count):
-        merchants.append[{
+        merchants.append({
             'merchant_id': f'merchant_{fake.uuid4()[:8]}',
             'name': fake.company(),
             'category': random.choice(categories),
             'country': ['CA', 'US', 'GB', 'AU', 'NZ'],
             'risk_score': round(random.uniform(0, 0.1), 4)
-        }]
+        })
     
     return pd.DataFrame(merchants)
 
@@ -68,11 +68,11 @@ def generate_transactions(users_df, merchants_df, date):
 
     is_weekend = date.weekday() >= 5
     if is_weekend:
-        daily_volume = random.randint(50, 80)
+        daily_count = random.randint(50, 80)
     else:
-        random.randint(100, 150)
+        daily_count = random.randint(100, 150)
 
-    for _ in range(daily_volume):
+    for _ in range(daily_count):
         # Part I: Creating transactions
         user = users_df.sample(1).iloc[0]
         merchant = merchants_df.sample(1).iloc[0]
@@ -91,24 +91,24 @@ def generate_transactions(users_df, merchants_df, date):
         }
 
         # Part II: Including bad data
-        chaos = random.random()
-        if chaos < 0.02:
+        transaction_chaos = random.random()
+        if transaction_chaos < 0.02:
             transaction['amount'] = None # Missing amount
-        elif chaos <= 0.04:
+        elif transaction_chaos <= 0.04:
             transaction['user_id'] = None # Missing user id
-        elif chaos <= 0.05:
+        elif transaction_chaos <= 0.05:
             if transaction['amount']:
                 transaction['amount'] = transaction['amount'] * -1 # Negative transaction amount
-        elif chaos <= 0.06:
+        elif transaction_chaos <= 0.06:
             transaction['event_time'] = transaction['event_time'] + timedelta(days = 365) # One year into future
-        elif chaos <= 0.07:
+        elif transaction_chaos <= 0.07:
             transaction['currency'] = random.choice(['cad', '$CAD', 'USD', '$USD', 'AUD']) # Incorrect currency format
-        elif chaos <= 0.08:
+        elif transaction_chaos <= 0.08:
             transaction['merchant_id'] = f' {transaction['merchant_id']} ' # Hidden whitespace
         
         transactions.append(transaction)
 
-        if chaos > 0.98:
+        if transaction_chaos > 0.98:
             transactions.append(transaction.copy()) # Creating duplicates
 
         # Part III: Basic data contract
@@ -134,13 +134,79 @@ def generate_transactions(users_df, merchants_df, date):
                 'event_time': transaction['event_time']
             })
 
-        return pd.DataFrame(transactions), pd.DataFrame(ledger_entries)
+    return pd.DataFrame(transactions), pd.DataFrame(ledger_entries)
+    
+
+def generate_settlements(transactions_df):
+    """
+    Generates data from an external payment processor such as Stripe or VISA. The data here will be largely perfect but with minute errors built-in to demonstrate how dbt reconciliation logic can be triggered.
+    
+    :param transactions_df: Description
+    """
+
+    settlements = []
+
+    valid_transactions = transactions_df[transactions_df['status'] == 'completed']
+
+    for _, transaction in valid_transactions.iterrows():
+        fee_rate = 0.02
+        flat_fee = 0.30
+        gross_amount = float(transaction['amount']) if transaction['amount'] else 0
+        fee = round((gross_amount * fee_rate) + flat_fee, 2)
+        net_amount = round(gross_amount - fee, 2)
+
+        settlement_record = {
+            'settlement_id': f'settlement_{fake.uuid4()[:12]}',
+            'transaction_id': transaction['transaction_id'],
+            'merchant_id': transaction['merchant_id'],
+            'gross_amount': gross_amount,
+            'fee_amount': fee,
+            'net_amount': net_amount,
+            'currency': transaction['currency'],
+            'settlement_date': (pd.to_datetime(transaction['event_time']) + timedelta(days = random.randint(1, 3))).strftime('%Y-%m-%d'),
+            'processor_reference': f'REF-{fake.swift(length = 8)}',
+            'status': 'settled',
+            'discrepancy_reason': None
+        }
+
+        settlement_chaos = random.random()
+
+        if settlement_chaos < 0.02:
+            settlement_record['net_amount'] -= 1.00 # Removing one dollar from the fee
+            settlement_record['discrepancy_reason'] = 'amount_mismatch'
+        elif settlement_chaos < 0.03:
+            settlement_record['status'] = 'failed' # Failed for unknown reason
+        elif settlement_chaos < 0.04:            
+            continue # We have record, payment processor does not
+
+        settlements.append(settlement_record)
+
+    # Generating records that exist in payment processor, but not internally
+    for _ in range(int(len(transactions_df) * 0.01)):
+        settlements.append({
+            'settlement_id': f'settlement_{fake.uuid4()[:12]}',
+            'transaction_id': f'transaction_unknown_{fake.uuid4()[:8]}',
+            'merchant_id': f'merchant_{fake.uuid4()[:8]}',
+            'gross_amount': round(random.uniform(10, 200), 2),
+            'fee_amount': 5.00,
+            'net_amount': 0.00,
+            'currency': 'CAD',
+            'settlement_date': (pd.to_datetime(transactions_df['event_time'].max()) + timedelta(days=1)).strftime('%Y-%m-%d'),
+            'processor_reference': f'REF-{fake.swift(length = 8)}',
+            'status': 'settled',
+            'discrepancy_reason': 'external_only'
+        })
+    
+    return pd.DataFrame(settlements)
     
 def main():
     print('Generating data...')
     users = generate_users(user_count)
     merchants = generate_merchants(merchant_count)
 
+    # Creating csvs for now, in a real-world situation would be impossible
+    # Parquet (columnar-format) or Avro (JSON) would be ideal
+    # Parquet compresses data, can enforce a schema, and makes queries significantly faster
     os.makedirs('data/raw', exist_ok = True)
     users.to_csv('data/raw/users.csv', index = False)
     merchants.to_csv('data/raw/merchants.csv', index = False)
@@ -159,6 +225,18 @@ def main():
     pd.concat(all_entries).to_csv('data/raw/entries.csv', index = False)
 
     print(f'Transaction generation complete. {sum(len(df) for df in all_transactions)} transactions have been created.')
+
+    print('Generating settlements...')
+    
+    full_transactions_df = pd.concat(all_transactions)
+    full_entries_df = pd.concat(all_entries)
+    settlements_df = generate_settlements(full_transactions_df)
+
+    # full_transactions_df.to_csv('data/raw/transactions.csv', index = False)
+    full_entries_df.to_csv('data/raw/ledger_entries.csv', index = False)
+    settlements_df.to_csv('data/raw/settlements.csv', index = False)
+
+    print(f'{len(full_transactions_df)} transactions and {len(settlements_df)} settlements generated.')
 
 if __name__ == '__main__':
     main()
