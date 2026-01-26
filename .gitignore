@@ -1,0 +1,16 @@
+# Ignore Virtual Env
+venv/
+env/
+.env
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore Data (We generally don't commit large CSVs)
+data/
+*.csv
+!data/.gitkeep  # Keep the folder structure, just not the files
+
+# OS junk
+.DS_Store
