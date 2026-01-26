@@ -53,3 +53,112 @@ def generate_merchants(merchant_count):
         }]
     
     return pd.DataFrame(merchants)
+
+def generate_transactions(users_df, merchants_df, date):
+    """
+    Docstring for generate_transactions
+    
+    :param users_df: Description
+    :param merchants_df: Description
+    :param date: Description
+    """
+
+    transactions = []
+    ledger_entries = []
+
+    is_weekend = date.weekday() >= 5
+    if is_weekend:
+        daily_volume = random.randint(50, 80)
+    else:
+        random.randint(100, 150)
+
+    for _ in range(daily_volume):
+        # Part I: Creating transactions
+        user = users_df.sample(1).iloc[0]
+        merchant = merchants_df.sample(1).iloc[0]
+        transaction_id = f'transaction_{fake.uuid4()[:12]}'
+        amount = round(random.uniform(5.0, 500.0), 2)
+
+        transaction = {
+            'transaction_id': transaction_id,
+            'user_id': user['user_id'],
+            'merchant_id': merchant['merchant_id'],
+            'amount': amount,
+            'currency': 'CAD',
+            'transaction_type': 'purchase',
+            'event_time': date + timedelta(hours = random.randint(6, 23), minutes = random.randint(0, 59)),
+            'status': 'completed'
+        }
+
+        # Part II: Including bad data
+        chaos = random.random()
+        if chaos < 0.02:
+            transaction['amount'] = None # Missing amount
+        elif chaos <= 0.04:
+            transaction['user_id'] = None # Missing user id
+        elif chaos <= 0.05:
+            if transaction['amount']:
+                transaction['amount'] = transaction['amount'] * -1 # Negative transaction amount
+        elif chaos <= 0.06:
+            transaction['event_time'] = transaction['event_time'] + timedelta(days = 365) # One year into future
+        elif chaos <= 0.07:
+            transaction['currency'] = random.choice(['cad', '$CAD', 'USD', '$USD', 'AUD']) # Incorrect currency format
+        elif chaos <= 0.08:
+            transaction['merchant_id'] = f' {transaction['merchant_id']} ' # Hidden whitespace
+        
+        transactions.append(transaction)
+
+        if chaos > 0.98:
+            transactions.append(transaction.copy()) # Creating duplicates
+
+        # Part III: Basic data contract
+        # Establishing that debits == credits
+        if transaction['amount'] and transaction['user_id']:
+            ledger_entries.append({
+                'entry_id': f'entry_{fake.uuid4()[:8]}',
+                'transaction_id': transaction_id,
+                'account_type': 'user',
+                'account_id': user['user_id'],
+                'entry_type': 'debit',
+                'amount': amount,
+                'event_time': transaction['event_time']
+            })
+
+            ledger_entries.append({
+                'entry_id': f'entry_{fake.uuid4()[:8]}',
+                'transaction_id': transaction_id,
+                'account_type': 'merchant',
+                'account_id': merchant['merchant_id'],
+                'entry_type': 'credit',
+                'amount': amount,
+                'event_time': transaction['event_time']
+            })
+
+        return pd.DataFrame(transactions), pd.DataFrame(ledger_entries)
+    
+def main():
+    print('Generating data...')
+    users = generate_users(user_count)
+    merchants = generate_merchants(merchant_count)
+
+    os.makedirs('data/raw', exist_ok = True)
+    users.to_csv('data/raw/users.csv', index = False)
+    merchants.to_csv('data/raw/merchants.csv', index = False)
+
+    all_transactions = []
+    all_entries = []
+
+    print(f'Generating transactions for {day_count} days...')
+    for i in range(day_count):
+        current_date = start_date + timedelta(days = i)
+        transactions_df, entries_df = generate_transactions(users, merchants, current_date)
+        all_transactions.append(transactions_df)
+        all_entries.append(entries_df)
+
+    pd.concat(all_transactions).to_csv('data/raw/transactions.csv', index = False)
+    pd.concat(all_entries).to_csv('data/raw/entries.csv', index = False)
+
+    print(f'Transaction generation complete. {sum(len(df) for df in all_transactions)} transactions have been created.')
+
+if __name__ == '__main__':
+    main()
