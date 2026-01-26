@@ -15,9 +15,9 @@ day_count = 30
 
 def generate_users(user_count):
     """
-    Docstring for generate_users
+    Generates fake users as clients of a bank. A beta distribution with a high beta would be most realistic for this data. But since this project is not trying to generate millions of rows of data, a uniform distribution will be used for convenience.
     
-    :param user_count: Description
+    :param user_count: Count of users generated for the experiment.
     """
 
     users = []
@@ -32,3 +32,24 @@ def generate_users(user_count):
         }]
     
     return pd.DataFrame(users)
+
+def generate_merchants(merchant_count):
+    """
+    Docstring for generate_merchants
+    
+    :param merchant_count: Description
+    """
+
+    merchants = []
+    categories = ['grocery', 'dining', 'transportation', 'utilities', 'shopping', 'health', 'entertainment']
+
+    for _ in range(merchant_count):
+        merchants.append[{
+            'merchant_id': f'merchant_{fake.uuid4()[:8]}',
+            'name': fake.company(),
+            'category': random.choice(categories),
+            'country': ['CA', 'US', 'GB', 'AU', 'NZ'],
+            'risk_score': round(random.uniform(0, 0.1), 4)
+        }]
+    
+    return pd.DataFrame(merchants)
