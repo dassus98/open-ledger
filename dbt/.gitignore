@@ -1,4 +1,8 @@
-
-target/
-dbt_packages/
-logs/
+# .gitignore
+.env
+venv/
+__pycache__/
+*.pyc
+dbt/target/
+dbt/logs/
+.DS_Store
