@@ -1,0 +1,116 @@
+[0m16:01:26.636102 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8143adb860>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8143e4b6e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b8143ad9190>]}
+
+
+============================== 16:01:26.638274 | 21f7b285-ec9c-4c0c-a8bf-5f8ce17f3097 ==============================
+[0m16:01:26.638274 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:01:26.638684 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'profiles_dir': '/home/dchit/.dbt', 'log_path': 'logs', 'fail_fast': 'False', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt init dbit', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m16:01:26.639045 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse dict {'dir': PosixPath('/home/dchit/.dbt')}
+[0m16:01:26.639372 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m16:01:26.640505 [debug] [MainThread]: Starter project path: /home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m16:01:26.645128 [info ] [MainThread]: 
+Your new dbt project "dbit" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m16:01:26.645570 [info ] [MainThread]: Setting up your profile.
+[0m16:01:45.369051 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7587c27eaff0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7587c27e86e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7587c27ea480>]}
+
+
+============================== 16:01:45.371007 | 9f454590-b672-4b81-9aec-89b07c430b73 ==============================
+[0m16:01:45.371007 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:01:45.371413 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/dchit/.dbt', 'fail_fast': 'False', 'version_check': 'True', 'log_path': 'logs', 'debug': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'invocation_command': 'dbt init dbt', 'introspect': 'True', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m16:02:03.147214 [error] [MainThread]: Encountered an error:
+
+[0m16:02:03.148666 [error] [MainThread]: Traceback (most recent call last):
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 91, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/cli/main.py", line 516, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/task/init.py", line 322, in run
+    project_name = self.get_valid_project_name()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/task/init.py", line 276, in get_valid_project_name
+    name = click.prompt("Enter a name for your project (letters, digits, underscore)")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/click/termui.py", line 171, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/click/termui.py", line 154, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m16:02:03.150189 [debug] [MainThread]: Resource report: {"command_name": "init", "command_wall_clock_time": 17.80752, "process_user_time": 1.038287, "process_kernel_time": 0.135776, "process_mem_max_rss": "98320", "process_in_blocks": "8", "process_out_blocks": "16", "command_success": false}
+[0m16:02:03.150509 [debug] [MainThread]: Command `dbt init` failed at 16:02:03.150425 after 17.81 seconds
+[0m16:02:03.150759 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7587c2cd5b80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7587c2a80500>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7587c2a3a810>]}
+[0m16:02:03.151046 [debug] [MainThread]: Flushing usage events
+[0m16:02:35.671449 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7c24436defc0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7c2444a15580>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7c24436dd130>]}
+
+
+============================== 16:02:35.673620 | 3ebb0ef3-fcb1-48a5-bc26-1f1aa2eb8808 ==============================
+[0m16:02:35.673620 [info ] [MainThread]: Running with dbt=1.7.19
+[0m16:02:35.673996 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'debug': 'False', 'fail_fast': 'False', 'log_path': 'logs', 'profiles_dir': '/home/dchit/.dbt', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt init dbt', 'log_format': 'default', 'introspect': 'True', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m16:03:05.872442 [debug] [MainThread]: Starter project path: /home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m16:03:05.877309 [info ] [MainThread]: 
+Your new dbt project "openledger" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m16:03:05.877713 [info ] [MainThread]: Setting up your profile.
+[0m16:03:09.694536 [error] [MainThread]: Encountered an error:
+
+[0m16:03:09.696555 [error] [MainThread]: Traceback (most recent call last):
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 91, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/cli/requires.py", line 76, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/cli/main.py", line 516, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/task/init.py", line 344, in run
+    self.setup_profile(profile_name)
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/task/init.py", line 263, in setup_profile
+    adapter = self.ask_for_adapter_choice()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/dbt/task/init.py", line 244, in ask_for_adapter_choice
+    numeric_choice = click.prompt(prompt_msg, type=click.INT)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/click/termui.py", line 171, in prompt
+    value = prompt_func(prompt)
+            ^^^^^^^^^^^^^^^^^^^
+  File "/home/dchit/projects/open-ledger/venv/lib/python3.12/site-packages/click/termui.py", line 154, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m16:03:09.697773 [debug] [MainThread]: Resource report: {"command_name": "init", "command_wall_clock_time": 34.053196, "process_user_time": 1.098433, "process_kernel_time": 0.163826, "process_mem_max_rss": "98284", "process_out_blocks": "72", "command_success": false, "process_in_blocks": "0"}
+[0m16:03:09.698235 [debug] [MainThread]: Command `dbt init` failed at 16:03:09.698133 after 34.05 seconds
+[0m16:03:09.698552 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7c2443a4f6b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7c2443b281d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7c2443eba870>]}
+[0m16:03:09.698898 [debug] [MainThread]: Flushing usage events
