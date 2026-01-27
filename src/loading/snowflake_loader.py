@@ -2,30 +2,37 @@ import snowflake.connector
 import os
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
 
+def get_env_var(key):
+    """Removing whitespace and quotes"""
+    val = os.getenv(key)
+    if val:
+        return val.strip().strip("'").strip('"')
+    return None
+
 def get_snowflake_connection():
+    user = get_env_var('SNOWFLAKE_USER')
+    if not user:
+        raise ValueError("ERROR: .env environment variables not loading.")
+    
     return snowflake.connector.connect(
-        user=os.getenv('SNOWFLAKE_USER'),
-        password=os.getenv('SNOWFLAKE_PASSWORD'),
-        account=os.getenv('SNOWFLAKE_ACCOUNT'),
-        warehouse=os.getenv('SNOWFLAKE_WAREHOUSE'),
-        database=os.getenv('SNOWFLAKE_DATABASE'),
-        schema=os.getenv('SNOWFLAKE_SCHEMA')
+        user=get_env_var('SNOWFLAKE_USER'),
+        password=get_env_var('SNOWFLAKE_PASSWORD'),
+        account=get_env_var('SNOWFLAKE_ACCOUNT'),
+        warehouse=get_env_var('SNOWFLAKE_WAREHOUSE'),
+        database=get_env_var('SNOWFLAKE_DATABASE'),
+        schema=get_env_var('SNOWFLAKE_SCHEMA'),
+        role=get_env_var('SNOWFLAKE_ROLE')
     )
 
 def load_table(conn, table_name, file_path):
     cursor = conn.cursor()
+    
     try:
-        print(f'Loading {table_name}...')
-        
-        # Clearing existing data (Idempotency)
-        # Replacing data for now, incremental appending in production would be wiser
         cursor.execute(f"TRUNCATE TABLE {table_name}")
-        
-        # Creating a temporary file format for parsing CSVs
-        cursor.execute("""
+
+        cursor.execute(f"""
             CREATE OR REPLACE FILE FORMAT my_csv_format
             TYPE = 'CSV'
             FIELD_OPTIONALLY_ENCLOSED_BY = '"'
@@ -34,47 +41,52 @@ def load_table(conn, table_name, file_path):
             EMPTY_FIELD_AS_NULL = TRUE;
         """)
         
-        # Uploading file to the table stage
-        local_file_path = file_path.replace('\\', '/') # Windows fix
-        put_query = f'PUT file://{local_file_path} @%{table_name} AUTO_COMPRESS=TRUE'
+        local_file_path = file_path.replace('\\', '/')
+        stage_path = f"@~/openledger_staged/{table_name}"
+        
+        put_query = f"PUT file://{local_file_path} {stage_path} AUTO_COMPRESS=TRUE OVERWRITE=TRUE"
         cursor.execute(put_query)
         
-        # Copying from stage to table
-        # on_error = 'CONTINUE' allows load to finish despite Snowflake trying to block randomized data errors
         copy_query = f"""
             COPY INTO {table_name}
-            FROM @%{table_name}
+            FROM {stage_path}
             FILE_FORMAT = (FORMAT_NAME = 'my_csv_format')
             ON_ERROR = 'CONTINUE' 
             PURGE = TRUE;
         """
         cursor.execute(copy_query)
         
-        print(f'Successfully loaded {table_name}')
+        print(f"{table_name} has been loaded.")
         
-    except Exception as e:
-        print(f'Error loading {table_name}: {e}')
+    except Exception as exception:
+        print(f"ERROR: {exception}")
     finally:
         cursor.close()
 
 def main():
-    conn = get_snowflake_connection()
-    
-    # Defining map of table name -> local file
-    files_to_load = {
-        'TRANSACTIONS': 'data/raw/transactions.csv',
-        'LEDGER_ENTRIES': 'data/raw/ledger_entries.csv',
-        'SETTLEMENTS': 'data/raw/settlements.csv'
-    }
-    
     try:
+        conn = get_snowflake_connection()
+        
+        files_to_load = {
+            "TRANSACTIONS": "data/raw/transactions.csv",
+            "LEDGER_ENTRIES": "data/raw/ledger_entries.csv",
+            "SETTLEMENTS": "data/raw/settlements.csv"
+        }
+        
         for table, path in files_to_load.items():
+            if not os.path.exists(path):
+                print(f"ERROR: Missing file path {path}")
+                continue
+            
             abs_path = os.path.abspath(path)
             load_table(conn, table, abs_path)
             
+    except Exception as exception:
+        print(f"ERROR: {exception}")
     finally:
-        conn.close()
-        print('Connection closed.')
+        if 'conn' in locals():
+            conn.close()
+            print("Connection closed.")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
