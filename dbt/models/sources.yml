@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: openledger
+    database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+    schema: RAW
+    tables:
+      - name: transactions
+        description: "Raw transaction logs from the core banking ledger."
+      
+      - name: ledger_entries
+        description: "Double-entry accounting records of transactions."
+      
+      - name: settlements
+        description: "Payment processor files."
