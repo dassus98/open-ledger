@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: staging_transactions
+    description: 'Cleaned transaction logs'
+    columns:
+      - name: transaction_id
+        description: 'Primary Key'
+        tests:
+          - unique:
+              severity: warn
+          - not_null
+
+      - name: user_id
+        tests:
+          - not_null:
+              severity: warn
+
+      - name: amount
+        tests:
+          - not_null
+
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['completed', 'failed', 'pending', 'declined']
+
+  - name: staging_settlements
+    columns:
+      - name: settlement_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: transaction_id
+        tests:
+          - relationships:
+              to: ref('staging_transactions')
+              field: transaction_id
+              severity: warn
