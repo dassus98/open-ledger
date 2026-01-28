@@ -9,5 +9,5 @@ openledger:
       role: "{{ env_var('SNOWFLAKE_ROLE') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}"
       database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
-      schema: "ANALYTICS"  # <--- This is where dbt will build new tables
+      schema: "ANALYTICS"
       threads: 4
