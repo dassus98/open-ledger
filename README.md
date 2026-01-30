@@ -7,12 +7,9 @@ OpenLedger is an automated financial reconciliation engine designed to replace m
 ## Architecture
 **ELT Pipeline:** Python (Ingestion) → Snowflake (Storage) → dbt (Transformation) → Dagster (Orchestration)
 
-* Python was used to generate realistic fintech transactions. Incorrect data was incorporated to ensure that dbt tests were functional.
-
+* Python was used to generate realistic fintech transactions. Incorrect data was artificially incorporated to ensure that dbt tests were functional.
 * Dagster was used to develop the dependency graph. Python scripts and dbt models were treated as Software-Defined Assets.
-
 * Automated circuit breakers were incorporated to stop the pipeline if data quality tests fail (e.g. `not_null`, `unique`).
-
 * SQL was used to identify mismatched records between internal and external sources.
 
 ## Core Features
