@@ -21,7 +21,7 @@ OpenLedger is an automated financial reconciliation engine designed to replace m
 * Integrated dbt tests serve as enforce data contracts which prevent low-quality data from entering the fact tables (here I just placed the severity as "warn" to show that the process functions end-to-end).
 
 ## Tech Stack
-**Language:** Python 3.10+, SQL (Jinja)
+Python 3.10+, SQL (Jinja)
 **Warehouse:** Snowflake
 **Transformation:** dbt Core
 **Orchestration:** Dagster
