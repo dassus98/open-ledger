@@ -14,19 +14,20 @@ OpenLedger is an automated financial reconciliation engine designed to replace m
 
 ## Core Features
 * Decoupled ingestion and transformation layers managed by a single DAG. This allows for fault isolation (makes debugging easier), makes changing the business logic easier, and creates an identifiable audit trail.
-* Staging layers clean up raw data (type casting, null handling) before it hits production tables.
+* Used staging layers to clean up raw data (type casting, null handling) before it hits production tables.
 * Integrated dbt tests serve as enforce data contracts which prevent low-quality data from entering the fact tables (here I just placed the severity as "warn" to show that the process functions end-to-end).
 
 ## Tech Stack
 * Python
 * Snowflake
 * dbt Core
-* SQL (Jinja)
+* SQL
+* Jinja
 * Dagster
 * Streamlit
 
 ## Business Value
 In a real-world scenario, this system:
-1.  Reduces Close Time b Automates T+1 reconciliation, eliminating month-end crunch.
-2.  Prevents Revenue Leakage: Instantly flags "Missing Internal" transactions where money was received but not recorded.
-3.  Audit Readiness: Provides full data lineage from source CSV to final Report.
+1.  Automates T+1 reconciliation which reduces close-time and eliminates month-end crunch.
+2.  Prevents revenue leakage by instantly flagging transactions where money was received but not recorded.
+3.  Provides full data lineage from ingestion source to the final report, ensuring audit compliance.
