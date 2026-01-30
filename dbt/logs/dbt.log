@@ -1279,3 +1279,191 @@ KeyboardInterrupt
 [0m17:08:57.014354 [debug] [MainThread]: Command `dbt docs serve` failed at 17:08:57.014214 after 38.94 seconds
 [0m17:08:57.014773 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b21a35f7140>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b21a3557fb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b2177db7800>]}
 [0m17:08:57.015212 [debug] [MainThread]: Flushing usage events
+[0m17:08:57.321299 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7cdc1a5ef4a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7cdc187e0620>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7cdc183edeb0>]}
+
+
+============================== 17:08:57.324380 | a389b7e2-c1ae-4aff-996d-9cecdee0f2bb ==============================
+[0m17:08:57.324380 [info ] [MainThread]: Running with dbt=1.7.19
+[0m17:08:57.325066 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/dchit/projects/open-ledger/dbt', 'debug': 'False', 'warn_error': 'None', 'log_path': '/home/dchit/projects/open-ledger/dbt/logs', 'fail_fast': 'False', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'static_parser': 'True', 'log_format': 'default', 'target_path': 'None', 'invocation_command': 'dbt build --select fct_transactions', 'send_anonymous_usage_stats': 'True'}
+[0m17:08:57.328302 [error] [MainThread]: Encountered an error:
+Parsing Error
+  Env var required but not provided: 'SNOWFLAKE_ACCOUNT'
+[0m17:08:57.329724 [debug] [MainThread]: Resource report: {"command_name": "build", "command_wall_clock_time": 0.04823689, "process_user_time": 1.249921, "process_kernel_time": 0.245161, "process_mem_max_rss": "99152", "process_in_blocks": "39240", "process_out_blocks": "16", "command_success": false}
+[0m17:08:57.330053 [debug] [MainThread]: Command `dbt build` failed at 17:08:57.329952 after 0.05 seconds
+[0m17:08:57.330318 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7cdc187fd880>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7cdc1879c4a0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7cdc18414350>]}
+[0m17:08:57.330570 [debug] [MainThread]: Flushing usage events
+[0m17:10:55.000449 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f6309648f50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f6309c42ab0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f63096480b0>]}
+
+
+============================== 17:10:55.003617 | 30104053-acba-4528-a202-08d5e330c0f9 ==============================
+[0m17:10:55.003617 [info ] [MainThread]: Running with dbt=1.7.19
+[0m17:10:55.004049 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/dchit/projects/open-ledger/dbt', 'debug': 'False', 'version_check': 'True', 'log_path': '/home/dchit/projects/open-ledger/dbt/logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'invocation_command': 'dbt debug', 'introspect': 'True', 'log_format': 'default', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m17:10:55.004384 [info ] [MainThread]: dbt version: 1.7.19
+[0m17:10:55.004650 [info ] [MainThread]: python version: 3.12.3
+[0m17:10:55.004931 [info ] [MainThread]: python path: /home/dchit/projects/open-ledger/venv/bin/python3.12
+[0m17:10:55.005217 [info ] [MainThread]: os info: Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39
+[0m17:10:55.548733 [info ] [MainThread]: Using profiles dir at /home/dchit/projects/open-ledger/dbt
+[0m17:10:55.549221 [info ] [MainThread]: Using profiles.yml file at /home/dchit/projects/open-ledger/dbt/profiles.yml
+[0m17:10:55.549527 [info ] [MainThread]: Using dbt_project.yml file at /home/dchit/projects/open-ledger/dbt/dbt_project.yml
+[0m17:10:55.550758 [info ] [MainThread]: adapter type: snowflake
+[0m17:10:55.551322 [info ] [MainThread]: adapter version: 1.7.0
+[0m17:10:55.623987 [info ] [MainThread]: Configuration:
+[0m17:10:55.624460 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m17:10:55.624810 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m17:10:55.625125 [info ] [MainThread]: Required dependencies:
+[0m17:10:55.625430 [debug] [MainThread]: Executing "git --help"
+[0m17:10:55.628323 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           [--config-env=<name>=<envvar>] <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m17:10:55.628879 [debug] [MainThread]: STDERR: "b''"
+[0m17:10:55.629388 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m17:10:55.629863 [info ] [MainThread]: Connection:
+[0m17:10:55.630162 [info ] [MainThread]:   account: VJAHCZT-VU00859
+[0m17:10:55.630432 [info ] [MainThread]:   user: jdas
+[0m17:10:55.630710 [info ] [MainThread]:   database: OPENLEDGER
+[0m17:10:55.630976 [info ] [MainThread]:   warehouse: OPENLEDGER_WH
+[0m17:10:55.631250 [info ] [MainThread]:   role: ACCOUNTADMIN
+[0m17:10:55.631531 [info ] [MainThread]:   schema: ANALYTICS
+[0m17:10:55.631807 [info ] [MainThread]:   authenticator: None
+[0m17:10:55.632083 [info ] [MainThread]:   private_key_path: None
+[0m17:10:55.632341 [info ] [MainThread]:   token: None
+[0m17:10:55.632595 [info ] [MainThread]:   oauth_client_id: None
+[0m17:10:55.632842 [info ] [MainThread]:   query_tag: None
+[0m17:10:55.633098 [info ] [MainThread]:   client_session_keep_alive: False
+[0m17:10:55.633405 [info ] [MainThread]:   host: None
+[0m17:10:55.633655 [info ] [MainThread]:   port: None
+[0m17:10:55.633914 [info ] [MainThread]:   proxy_host: None
+[0m17:10:55.634162 [info ] [MainThread]:   proxy_port: None
+[0m17:10:55.634408 [info ] [MainThread]:   protocol: None
+[0m17:10:55.634658 [info ] [MainThread]:   connect_retries: 1
+[0m17:10:55.634922 [info ] [MainThread]:   connect_timeout: None
+[0m17:10:55.635174 [info ] [MainThread]:   retry_on_database_errors: False
+[0m17:10:55.635421 [info ] [MainThread]:   retry_all: False
+[0m17:10:55.635669 [info ] [MainThread]:   insecure_mode: False
+[0m17:10:55.635927 [info ] [MainThread]:   reuse_connections: None
+[0m17:10:55.636259 [info ] [MainThread]: Registered adapter: snowflake=1.7.0
+[0m17:10:55.636843 [debug] [MainThread]: Acquiring new snowflake connection 'debug'
+[0m17:10:55.637491 [debug] [MainThread]: Using snowflake connection "debug"
+[0m17:10:55.637751 [debug] [MainThread]: On debug: select 1 as id
+[0m17:10:55.638011 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m17:10:58.867099 [debug] [MainThread]: SQL status: SUCCESS 1 in 3.0 seconds
+[0m17:10:58.868070 [debug] [MainThread]: On debug: Close
+[0m17:10:58.971883 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m17:10:58.972374 [info ] [MainThread]: [32mAll checks passed![0m
+[0m17:10:58.973287 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": true, "command_wall_clock_time": 4.0164795, "process_user_time": 1.951148, "process_kernel_time": 1.408497, "process_mem_max_rss": "219480", "process_in_blocks": "960", "process_out_blocks": "40"}
+[0m17:10:58.973686 [debug] [MainThread]: Command `dbt debug` succeeded at 17:10:58.973578 after 4.02 seconds
+[0m17:10:58.973974 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m17:10:58.974275 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f6309c42ab0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f6309894380>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f62bb1b54f0>]}
+[0m17:10:58.974608 [debug] [MainThread]: Flushing usage events
+[0m17:11:14.000022 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b38bc9133e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b38bc9128d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b38bc911fd0>]}
+
+
+============================== 17:11:14.002405 | 91dcc89d-7806-4a4b-a224-67ec9ee61eac ==============================
+[0m17:11:14.002405 [info ] [MainThread]: Running with dbt=1.7.19
+[0m17:11:14.002853 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/home/dchit/projects/open-ledger/dbt', 'fail_fast': 'False', 'warn_error': 'None', 'log_path': '/home/dchit/projects/open-ledger/dbt/logs', 'version_check': 'True', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'log_format': 'default', 'static_parser': 'True', 'introspect': 'True', 'invocation_command': 'dbt build --select fct_transactions', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m17:11:14.576866 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': '91dcc89d-7806-4a4b-a224-67ec9ee61eac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b38bc9138c0>]}
+[0m17:11:14.639269 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': '91dcc89d-7806-4a4b-a224-67ec9ee61eac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b38bc76b260>]}
+[0m17:11:14.640424 [info ] [MainThread]: Registered adapter: snowflake=1.7.0
+[0m17:11:14.652914 [debug] [MainThread]: checksum: a8d43cdff37d0f32d7fbe4c5c25bea4bb6c86e162f8ce8fdb1a38cdcf7495431, vars: {}, profile: , target: , version: 1.7.19
+[0m17:11:14.711324 [debug] [MainThread]: Partial parsing enabled: 0 files deleted, 0 files added, 1 files changed.
+[0m17:11:14.712468 [debug] [MainThread]: Partial parsing: updated file: openledger://models/staging/schema.yml
+[0m17:11:15.067132 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': '91dcc89d-7806-4a4b-a224-67ec9ee61eac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b3885c6af30>]}
+[0m17:11:15.073649 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': '91dcc89d-7806-4a4b-a224-67ec9ee61eac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b3885d64b60>]}
+[0m17:11:15.074020 [info ] [MainThread]: Found 4 models, 8 tests, 3 sources, 0 exposures, 0 metrics, 430 macros, 0 groups, 0 semantic models
+[0m17:11:15.075387 [info ] [MainThread]: 
+[0m17:11:15.075984 [debug] [MainThread]: Acquiring new snowflake connection 'master'
+[0m17:11:15.077295 [debug] [ThreadPool]: Acquiring new snowflake connection 'list_OPENLEDGER'
+[0m17:11:15.085685 [debug] [ThreadPool]: Using snowflake connection "list_OPENLEDGER"
+[0m17:11:15.086074 [debug] [ThreadPool]: On list_OPENLEDGER: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "openledger", "target_name": "dev", "connection_name": "list_OPENLEDGER"} */
+show terse schemas in database OPENLEDGER
+    limit 10000
+[0m17:11:15.086339 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m17:11:18.405368 [debug] [ThreadPool]: SQL status: SUCCESS 4 in 3.0 seconds
+[0m17:11:18.406664 [debug] [ThreadPool]: On list_OPENLEDGER: Close
+[0m17:11:18.495717 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_OPENLEDGER, now list_OPENLEDGER_ANALYTICS)
+[0m17:11:18.500755 [debug] [ThreadPool]: Using snowflake connection "list_OPENLEDGER_ANALYTICS"
+[0m17:11:18.501028 [debug] [ThreadPool]: On list_OPENLEDGER_ANALYTICS: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "openledger", "target_name": "dev", "connection_name": "list_OPENLEDGER_ANALYTICS"} */
+show terse objects in OPENLEDGER.ANALYTICS limit 10000
+[0m17:11:18.501280 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m17:11:21.565914 [debug] [ThreadPool]: SQL status: SUCCESS 4 in 3.0 seconds
+[0m17:11:21.568570 [debug] [ThreadPool]: On list_OPENLEDGER_ANALYTICS: Close
+[0m17:11:21.663465 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': '91dcc89d-7806-4a4b-a224-67ec9ee61eac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b3885c7f290>]}
+[0m17:11:21.664172 [info ] [MainThread]: Concurrency: 4 threads (target='dev')
+[0m17:11:21.664516 [info ] [MainThread]: 
+[0m17:11:21.667044 [debug] [Thread-1 (]: Began running node model.openledger.fct_transactions
+[0m17:11:21.667726 [info ] [Thread-1 (]: 1 of 1 START sql table model ANALYTICS.fct_transactions ........................ [RUN]
+[0m17:11:21.668246 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly list_OPENLEDGER_ANALYTICS, now model.openledger.fct_transactions)
+[0m17:11:21.668537 [debug] [Thread-1 (]: Began compiling node model.openledger.fct_transactions
+[0m17:11:21.673555 [debug] [Thread-1 (]: Writing injected SQL for node "model.openledger.fct_transactions"
+[0m17:11:21.674305 [debug] [Thread-1 (]: Timing info for model.openledger.fct_transactions (compile): 17:11:21.668706 => 17:11:21.674121
+[0m17:11:21.674601 [debug] [Thread-1 (]: Began executing node model.openledger.fct_transactions
+[0m17:11:21.695184 [debug] [Thread-1 (]: Writing runtime sql for node "model.openledger.fct_transactions"
+[0m17:11:21.696674 [debug] [Thread-1 (]: Using snowflake connection "model.openledger.fct_transactions"
+[0m17:11:21.697003 [debug] [Thread-1 (]: On model.openledger.fct_transactions: /* {"app": "dbt", "dbt_version": "1.7.19", "profile_name": "openledger", "target_name": "dev", "node_id": "model.openledger.fct_transactions"} */
+create or replace transient table OPENLEDGER.ANALYTICS.fct_transactions
+         as
+        (
+
+WITH internal AS (
+    SELECT * FROM OPENLEDGER.ANALYTICS.staging_transactions
+),
+
+external AS (
+    SELECT * FROM OPENLEDGER.ANALYTICS.staging_settlements
+),
+
+joined AS (
+    SELECT
+        -- COALESCE ensures we keep the ID even if it's missing from one side
+        COALESCE(i.transaction_id, e.transaction_id) AS transaction_id,
+        
+        -- Dimensions
+        i.user_id,
+        i.merchant_id,
+        i.event_time AS transaction_at,
+        e.settlement_date,
+        
+        -- Metrics
+        i.amount AS internal_amount,
+        e.net_amount AS bank_settled_amount,
+        e.fee_amount AS bank_fee,
+        
+        -- Calculating the difference (0 == perfect match)
+        -- Handling null values by treating them as 0
+        ZEROIFNULL(e.net_amount) - ZEROIFNULL(i.amount) AS reconciliation_delta
+        
+    FROM internal i
+    FULL OUTER JOIN external e 
+        ON i.transaction_id = e.transaction_id
+)
+
+SELECT
+    *,
+    CASE
+        WHEN internal_amount IS NOT NULL AND bank_settled_amount IS NULL THEN 'MISSING_EXTERNAL'
+        WHEN internal_amount IS NULL AND bank_settled_amount IS NOT NULL THEN 'MISSING_INTERNAL'
+        WHEN internal_amount = bank_settled_amount THEN 'MATCHED'
+        ELSE 'DISCREPANCY'
+    END AS reconciliation_status
+FROM joined
+        );
+[0m17:11:21.697362 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m17:11:25.498060 [debug] [Thread-1 (]: SQL status: SUCCESS 1 in 4.0 seconds
+[0m17:11:25.510867 [debug] [Thread-1 (]: Timing info for model.openledger.fct_transactions (execute): 17:11:21.674774 => 17:11:25.510741
+[0m17:11:25.511141 [debug] [Thread-1 (]: On model.openledger.fct_transactions: Close
+[0m17:11:25.601928 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': '91dcc89d-7806-4a4b-a224-67ec9ee61eac', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b3854efc8f0>]}
+[0m17:11:25.602591 [info ] [Thread-1 (]: 1 of 1 OK created sql table model ANALYTICS.fct_transactions ................... [[32mSUCCESS 1[0m in 3.93s]
+[0m17:11:25.603077 [debug] [Thread-1 (]: Finished running node model.openledger.fct_transactions
+[0m17:11:25.605178 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m17:11:25.605472 [debug] [MainThread]: Connection 'model.openledger.fct_transactions' was properly closed.
+[0m17:11:25.605713 [info ] [MainThread]: 
+[0m17:11:25.605989 [info ] [MainThread]: Finished running 1 table model in 0 hours 0 minutes and 10.53 seconds (10.53s).
+[0m17:11:25.606459 [debug] [MainThread]: Command end result
+[0m17:11:25.611840 [info ] [MainThread]: 
+[0m17:11:25.612253 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m17:11:25.612553 [info ] [MainThread]: 
+[0m17:11:25.612841 [info ] [MainThread]: Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+[0m17:11:25.613666 [debug] [MainThread]: Resource report: {"command_name": "build", "command_success": true, "command_wall_clock_time": 11.652609, "process_user_time": 2.463295, "process_kernel_time": 1.439588, "process_mem_max_rss": "232528", "process_in_blocks": "3184", "process_out_blocks": "2768"}
+[0m17:11:25.614042 [debug] [MainThread]: Command `dbt build` succeeded at 17:11:25.613944 after 11.65 seconds
+[0m17:11:25.614332 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b3885bf0470>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b3854628590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7b38bc911fd0>]}
+[0m17:11:25.614616 [debug] [MainThread]: Flushing usage events
