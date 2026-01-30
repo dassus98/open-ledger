@@ -1,6 +1,5 @@
 # Ignore Virtual Env
 venv/
-env/
 .env
 
 # Ignore Python cache
@@ -12,5 +11,11 @@ data/
 *.csv
 !data/.gitkeep  # Keep the folder structure, just not the files
 
-# OS junk
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# IDE
+.vscode/
 .DS_Store
