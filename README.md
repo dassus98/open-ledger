@@ -16,9 +16,9 @@ OpenLedger is an automated financial reconciliation engine designed to replace m
 * SQL was used to identify mismatched records between internal and external sources.
 
 ## Core Features
-**Multi-Asset Orchestration:** Decoupled Ingestion and Transformation layers managed by a single DAG.
-**Self-Healing Data:** "Staging" layers sanitize raw chaos data (type casting, null handling) before it hits production tables.
-**Observability:** Integrated dbt tests serve as "Data Contracts," ensuring no bad data enters the Fact tables.
+* Decoupled ingestion and transformation layers managed by a single DAG. This allows for fault isolation (makes debugging easier), makes changing the business logic easier, and creates an identifiable audit trail.
+* Staging layers clean up raw data (type casting, null handling) before it hits production tables.
+* Integrated dbt tests serve as enforce data contracts which prevent low-quality data from entering the fact tables (here I just placed the severity as "warn" to show that the process functions end-to-end).
 
 ## Tech Stack
 **Language:** Python 3.10+, SQL (Jinja)
