@@ -4,6 +4,27 @@
 
 OpenLedger is an automated financial reconciliation engine designed to replace manual Excel processes with a modern, scalable data pipeline. It ingests transactional data, enforces strict schemas to guarantee data integrity, and reconciles internal ledgers against external banking settlement files to detect financial discrepancies (fraud, data loss, fee mismatches, etc.).
 
+## Setup & Run Instructions
+
+### Prerequisites
+* Python 3.10+
+* Snowflake account (trial is fine)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/dassus98/open-ledger.git
+cd open-ledger
+
+# Create and activate a virtual environment (Recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
 ## Architecture
 **ELT Pipeline:** Python (Ingestion) → Snowflake (Storage) → dbt (Transformation) → Dagster (Orchestration)
 
