@@ -1,5 +1,21 @@
-pandas==2.2.0
-faker==24.0.0
-numpy==1.26.0
-matplotlib
-seaborn
+# Core
+pandas
+numpy
+faker
+
+# Infrastructure
+python-dotenv
+snowflake-connector-python
+pyarrow
+
+# dbt
+dbt-snowflake
+
+# Orchestration
+dagster
+dagster-dbt
+dagster-webserver
+
+# Visualization
+streamlit
+plotly
