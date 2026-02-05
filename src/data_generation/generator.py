@@ -35,9 +35,9 @@ def generate_users(user_count):
 
 def generate_merchants(merchant_count):
     """
-    Docstring for generate_merchants
+    Generates fake merchants for transactions.
     
-    :param merchant_count: Description
+    :param merchant_count: Count of merchants generated for the experiment.
     """
 
     merchants = []
@@ -48,7 +48,7 @@ def generate_merchants(merchant_count):
             'merchant_id': f'merchant_{fake.uuid4()[:8]}',
             'name': fake.company(),
             'category': random.choice(categories),
-            'country': ['CA', 'US', 'GB', 'AU', 'NZ'],
+            'country': random.choice(['CA', 'US', 'GB', 'AU', 'NZ']),
             'risk_score': round(random.uniform(0, 0.1), 4)
         })
     
@@ -56,11 +56,7 @@ def generate_merchants(merchant_count):
 
 def generate_transactions(users_df, merchants_df, date):
     """
-    Docstring for generate_transactions
-    
-    :param users_df: Description
-    :param merchants_df: Description
-    :param date: Description
+    Generates fake transactions between users and merchants.
     """
 
     transactions = []
@@ -140,8 +136,6 @@ def generate_transactions(users_df, merchants_df, date):
 def generate_settlements(transactions_df):
     """
     Generates data from an external payment processor such as Stripe or VISA. The data here will be largely perfect but with minute errors built-in to demonstrate how dbt reconciliation logic can be triggered.
-    
-    :param transactions_df: Description
     """
 
     settlements = []
