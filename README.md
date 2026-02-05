@@ -9,7 +9,7 @@ OpenLedger is an automated financial reconciliation engine designed to replace m
 
 * Python was used to generate realistic fintech transactions. Incorrect data was artificially incorporated to ensure that dbt tests were functional.
 * Dagster was used to develop the dependency graph. Python scripts and dbt models were treated as Software-Defined Assets.
-* Automated circuit breakers were incorporated to stop the pipeline if data quality tests fail (e.g. `not_null`, `unique`).
+* Automated circuit breakers were incorporated to stop the pipeline if data quality tests fail (e.g. `not_null`, `unique`). For purposes of demonstration, the severity of the circuit breakers were kept as 'warn' rather than 'error.
 * SQL was used to identify mismatched records between internal and external sources.
 
 ## Core Features
