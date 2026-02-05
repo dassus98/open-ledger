@@ -9,7 +9,7 @@ load_dotenv()
 
 def get_snowflake_connection():
     """
-    Docstring for get_snowflake_connection
+    Connects to Snowflake environment.
     """
 
     return snowflake.connector.connect(
