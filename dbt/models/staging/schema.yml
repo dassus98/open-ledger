@@ -30,6 +30,7 @@ models:
   - name: staging_settlements
     columns:
       - name: settlement_id
+        description: 'Primary Key'
         tests:
           - unique:
               severity: warn
