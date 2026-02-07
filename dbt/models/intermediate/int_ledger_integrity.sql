@@ -5,8 +5,8 @@ WITH ledger_entries AS (
 transaction_balances AS (
     SELECT
         transaction_id,
-        SUM(CASE WHEN entry_type = 'DEBIT' THEN amount ELSE 0 END) AS total_debits,
-        SUM(CASE WHEN entry_type = 'CREDIT' THEN amount ELSE 0 END) AS total_credits,
+        SUM(CASE WHEN entry_type = 'debit' THEN amount ELSE 0 END) AS total_debits,
+        SUM(CASE WHEN entry_type = 'credit' THEN amount ELSE 0 END) AS total_credits,
         COUNT(*) AS entry_count
     FROM ledger_entries
     GROUP BY transaction_id

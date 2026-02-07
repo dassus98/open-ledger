@@ -30,6 +30,7 @@ joined AS (
         
         -- Metrics
         i.amount AS internal_amount,
+        e.gross_amount AS bank_gross_amount,
         e.net_amount AS bank_settled_amount,
         e.fee_amount AS bank_fee,
 
@@ -38,7 +39,7 @@ joined AS (
         
         -- Calculating the difference (0 == perfect match)
         -- Handling null values by treating them as 0
-        ABS(ZEROIFNULL(e.net_amount) - ZEROIFNULL(i.amount) + ZEROIFNULL(e.fee_amount)) AS reconciliation_delta
+        ABS(ZEROIFNULL(i.amount) - ZEROIFNULL(e.gross_amount)) AS reconciliation_delta
         
     FROM internal i
     FULL OUTER JOIN external e 
