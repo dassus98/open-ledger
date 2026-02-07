@@ -18,7 +18,7 @@ def get_snowflake_connection():
         account=os.getenv('SNOWFLAKE_ACCOUNT'),
         warehouse=os.getenv('SNOWFLAKE_WAREHOUSE'),
         database=os.getenv('SNOWFLAKE_DATABASE'),
-        schema='ANALYTICS'
+        schema=os.getenv('SNOWFLAKE_SCHEMA', 'ANALYTICS')
     )
 
 st.set_page_config(page_title = 'OpenLedger Monitor', layout = 'wide')

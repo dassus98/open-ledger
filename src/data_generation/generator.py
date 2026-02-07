@@ -222,7 +222,6 @@ def main():
     full_entries_df = pd.concat(all_entries)
     settlements_df = generate_settlements(full_transactions_df)
 
-    # full_transactions_df.to_csv('data/raw/transactions.csv', index = False)
     full_entries_df.to_csv('data/raw/ledger_entries.csv', index = False)
     settlements_df.to_csv('data/raw/settlements.csv', index = False)
 
