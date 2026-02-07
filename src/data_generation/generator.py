@@ -16,8 +16,6 @@ day_count = 30
 def generate_users(user_count):
     """
     Generates fake users as clients of a bank. A beta distribution with a high beta would be most realistic for this data. But since this project is not trying to generate millions of rows of data, a uniform distribution will be used for convenience.
-    
-    :param user_count: Count of users generated for the experiment.
     """
 
     users = []
@@ -36,8 +34,6 @@ def generate_users(user_count):
 def generate_merchants(merchant_count):
     """
     Generates fake merchants for transactions.
-    
-    :param merchant_count: Count of merchants generated for the experiment.
     """
 
     merchants = []
@@ -165,18 +161,18 @@ def generate_settlements(transactions_df):
 
         settlement_chaos = random.random()
 
-        if settlement_chaos < 0.02:
+        if settlement_chaos < 0.10:
             settlement_record['net_amount'] -= 1.00 # Removing one dollar from the fee
             settlement_record['discrepancy_reason'] = 'amount_mismatch'
-        elif settlement_chaos < 0.03:
+        elif settlement_chaos < 0.20:
             settlement_record['status'] = 'failed' # Failed for unknown reason
-        elif settlement_chaos < 0.04:            
+        elif settlement_chaos < 0.22:            
             continue # We have record, payment processor does not
 
         settlements.append(settlement_record)
 
     # Generating records that exist in payment processor, but not internally
-    for _ in range(int(len(transactions_df) * 0.01)):
+    for _ in range(int(len(transactions_df) * 0.05)):
         settlements.append({
             'settlement_id': f'settlement_{fake.uuid4()[:12]}',
             'transaction_id': f'transaction_unknown_{fake.uuid4()[:8]}',
