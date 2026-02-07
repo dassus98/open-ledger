@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_ledger_integrity
+    description: 'Confirms that debits == credits'
+    columns:
+      - name: transaction_id
+        description: 'Primary key'
+        tests:
+          - unique
+          - not_null
+      - name: balance_delta
+        description: 'Difference between debits and credits, should be 0.'
+      - name: integrity_status
+        description: 'Shows if ledger is balanced'
+        tests:
+          - accepted_values:
+              values: ['BALANCED', 'UNBALANCED']
+              severity: warn

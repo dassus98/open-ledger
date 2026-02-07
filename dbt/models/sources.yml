@@ -2,14 +2,18 @@ version: 2
 
 sources:
   - name: openledger
-    database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
+    database: OPENLEDGER
     schema: RAW
     tables:
       - name: transactions
+        loaded_at_field: event_time
+        freshness:
+          warn_after: {count: 24, period: hour}
+          # error_after: {count: 48, period: hour}
         description: "Raw transaction logs from the core banking ledger."
-      
       - name: ledger_entries
-        description: "Double-entry accounting records of transactions."
-      
+        loaded_at_field: event_time
       - name: settlements
-        description: "Payment processor files."
+        loaded_at_field: settlement_date
+        freshness:
+          warn_after: {count: 24, period: hour}
