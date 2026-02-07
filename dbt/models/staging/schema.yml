@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: staging_transactions
+  - name: stg_transactions
     description: 'Cleaned transaction logs'
     columns:
       - name: transaction_id
@@ -27,7 +27,7 @@ models:
           - accepted_values:
               values: ['completed', 'failed', 'pending', 'declined']
 
-  - name: staging_settlements
+  - name: stg_settlements
     columns:
       - name: settlement_id
         description: 'Primary Key'
@@ -40,6 +40,6 @@ models:
       - name: transaction_id
         tests:
           - relationships:
-              to: ref('staging_transactions')
+              to: ref('stg_transactions')
               field: transaction_id
               severity: warn
