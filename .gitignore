@@ -1,6 +1,7 @@
 # Ignore Virtual Env
 venv/
 .env
+.envrc
 
 # Ignore Python cache
 __pycache__/
