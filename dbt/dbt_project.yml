@@ -24,3 +24,6 @@ models:
       +materialized: view
     marts:
       +materialized: incremental
+
+vars:
+  reconciliation_tolerance: 0.02

@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: openledger
-    database: OPENLEDGER
+    database: "{{ env_var('SNOWFLAKE_DATABASE') }}"
     schema: RAW
     tables:
       - name: transactions
