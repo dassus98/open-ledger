@@ -37,9 +37,11 @@ joined AS (
         -- Integrity check
         COALESCE(int.integrity_status, 'UNKNOWN') AS ledger_integrity,
         
-        -- Calculating the difference (0 == perfect match)
-        -- Handling null values by treating them as 0
-        ABS(ZEROIFNULL(i.amount) - ZEROIFNULL(e.gross_amount)) AS reconciliation_delta
+        -- Checking if correct amount was charged
+        ABS(ZEROIFNULL(i.amount) - ZEROIFNULL(e.gross_amount)) AS gross_match_delta,
+
+        -- Should equal Gross - Fee
+        ABS(ZEROIFNULL(e.gross_amount) - ZEROIFNULL(e.fee_amount) - ZEROIFNULL(e.net_amount)) AS settlement_math_delta
         
     FROM internal i
     FULL OUTER JOIN external e 
@@ -53,8 +55,9 @@ SELECT
     CASE
         WHEN internal_amount IS NOT NULL AND bank_settled_amount IS NULL THEN 'MISSING_EXTERNAL'
         WHEN internal_amount IS NULL AND bank_settled_amount IS NOT NULL THEN 'MISSING_INTERNAL'
-        WHEN reconciliation_delta < 0.02 THEN 'MATCHED'
-        ELSE 'DISCREPANCY'
+        WHEN gross_match_delta > {{ var('reconciliation_tolerance') }} THEN 'GROSS_MISMATCH'
+        WHEN settlement_math_delta > {{ var('reconciliation_tolerance') }} THEN 'SETTLEMENT_ERROR'
+        ELSE 'MATCHED'
     END AS reconciliation_status
 FROM joined
 

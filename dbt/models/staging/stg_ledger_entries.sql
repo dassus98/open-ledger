@@ -15,9 +15,8 @@ cleaned AS (
         LOWER(TRIM(entry_type)) AS entry_type,
         
         -- Safe conversions
-        CAST(amount AS NUMBER(18, 2)) AS amount,
-        
-        event_time
+        TRY_CAST(amount::VARCHAR AS NUMBER(18, 2)) AS amount,
+        TRY_TO_TIMESTAMP(event_time::VARCHAR) AS event_time
 
     FROM source
 )
