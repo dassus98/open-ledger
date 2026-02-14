@@ -28,10 +28,12 @@ pip install -r requirements.txt
 ## Architecture
 **ELT Pipeline:** Python (Ingestion) → Snowflake (Storage) → dbt (Transformation) → Dagster (Orchestration)
 
-* Python was used to generate realistic fintech transactions. Incorrect data was artificially incorporated to ensure that dbt tests were functional.
-* Dagster was used to develop the dependency graph. Python scripts and dbt models were treated as Software-Defined Assets.
+* Python was used to generate realistic fintech transactions. Incorrect data was artificially incorporated to ensure that the pipeline is resilient and capable of handing errors.
+* Snowflake was chosen for its separation of storage and compute, which allows us to scale the system to larger quantities of data while efficiently keeping data ingestion and transformation apart.
+* dbt was chosen to enable modularity, documentation and version control for SQL. 
+* Jinja was incorporated to enable automatic schema changes (prod vs dev environments), incrementally update tables, and building DAGs.
+* Dagster was chosen over Airflow for its asset-based advantages (i.e. easier to connect a data pipeline), native integration with dbt, and faster debugging. Python scripts and dbt models were treated as Software-Defined Assets in this project.
 * Automated circuit breakers were incorporated to stop the pipeline if data quality tests fail (e.g. `not_null`, `unique`). For purposes of demonstration, the severity of the circuit breakers were kept as 'warn' rather than 'error.
-* SQL was used to identify mismatched records between internal and external sources.
 
 ## Core Features
 * Decoupled ingestion and transformation layers managed by a single DAG. This allows for fault isolation (makes debugging easier), makes changing the business logic easier, and creates an identifiable audit trail.
