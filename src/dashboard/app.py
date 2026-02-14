@@ -27,44 +27,64 @@ st.markdown('---')
 
 try:
     conn = get_snowflake_connection()
+
+    # High-level status update
     query_status = """
-        SELECT reconciliation_status, COUNT(*) AS count, SUM(ABS(reconciliation_delta)) AS total_delta
+        SELECT
+            reconciliation_status,
+            COUNT(*) AS count,
+            SUM(
+                COALESCE(gross_match_delta, 0) + COALESCE(settlement_math_delta, 0)
+            ) AS total_exposure
         FROM fct_transactions
         GROUP BY reconciliation_status
     """
     df_status = pd.read_sql(query_status, conn)
     df_status.columns = df_status.columns.str.upper()
 
+    # Daily exposure
     query_daily = """
-        SELECT DATE(transaction_at) AS TX_DATE, COUNT(*) AS TX_COUNT, SUM(CASE WHEN reconciliation_status != 'MATCHED' THEN 1 ELSE 0 END) AS BREAK_COUNT
+        SELECT
+            DATE(transaction_at) AS TX_DATE,
+            COUNT(*) AS TX_COUNT,
+            SUM(CASE WHEN reconciliation_status != 'MATCHED' THEN 1 ELSE 0 END) AS BREAK_COUNT
         FROM fct_transactions
         GROUP BY DATE(transaction_at)
         ORDER BY TX_DATE ASC
     """
+
     df_daily = pd.read_sql(query_daily, conn)
     df_daily.columns = df_daily.columns.str.upper()
     df_daily['TX_DATE'] = pd.to_datetime(df_daily['TX_DATE'])
     df_daily = df_daily.sort_values(by = 'TX_DATE')
     df_daily.set_index('TX_DATE', inplace = True)
 
-    query_exposure = """
-        SELECT SUM(internal_amount) AS EXPOSURE
+    # Shows bad transactions
+    query_details = """
+        SELECT
+            transaction_id,
+            reconciliation_status,
+            internal_amount,
+            bank_gross_amount,
+            gross_match_delta,
+            settlement_math_delta
         FROM fct_transactions
         WHERE reconciliation_status != 'MATCHED'
+        ORDER BY (COALESCE(gross_match_delta, 0) + COALESCE(settlement_math_delta, 0)) DESC
+        LIMIT 100
     """
-    df_exposure = pd.read_sql(query_exposure, conn)
-    df_exposure.columns = df_exposure.columns.str.upper()
+    df_details = pd.read_sql(query_details, conn)
+    df_details.columns = df_details.columns.str.upper()
 
     # KPIs
     total_volume = df_daily['TX_COUNT'].sum()
     break_count = df_status[df_status['RECONCILIATION_STATUS'] != 'MATCHED']['COUNT'].sum()
+    total_exposure = df_status['TOTAL_EXPOSURE'].sum()
 
     if total_volume > 0:
         match_rate = 100 - ((break_count / total_volume) * 100)
     else:
         match_rate = 100
-
-    total_exposure = df_exposure['EXPOSURE'].iloc[0] if not df_exposure.empty and pd.notnull(df_exposure['EXPOSURE'].iloc[0]) else 0
 
     col_m1, col_m2, col_m3 = st.columns(3)
     col_m1.metric('Match Rate', f'{match_rate:.2f}%')
@@ -90,9 +110,8 @@ try:
 
     with col2:
         st.subheader('Discrepancy Breakdown')
-        st.write('Failed Transactions for Reconciliation')
-        df_breaks = df_status[df_status['RECONCILIATION_STATUS'] != 'MATCHED']
-        st.dataframe(df_breaks, use_container_width = True)
+        st.write('Top 100 FAILED Transactions')
+        st.dataframe(df_details, use_container_width = True)
     
     st.subheader('Daily Transaction Volume vs. Breaks')
     st.line_chart(
