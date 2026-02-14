@@ -191,41 +191,50 @@ def generate_settlements(transactions_df):
     
 def main():
     print('Generating data...')
+
+    os.makedirs('data/raw', exist_ok=True)
+
+    # Generating static data
     users = generate_users(user_count)
     merchants = generate_merchants(merchant_count)
+    
+    users.to_csv('data/raw/users.csv', index=False)
+    merchants.to_csv('data/raw/merchants.csv', index=False)
 
-    # Creating csvs for now, in a real-world situation would be impossible
-    # Parquet (columnar-format) or Avro (JSON) would be ideal
-    # Parquet compresses data, can enforce a schema, and makes queries significantly faster
-    os.makedirs('data/raw', exist_ok = True)
-    users.to_csv('data/raw/users.csv', index = False)
-    merchants.to_csv('data/raw/merchants.csv', index = False)
-
+    # Initializing lists
     all_transactions = []
     all_entries = []
+    all_settlements = []
 
     print(f'Generating transactions for {day_count} days...')
+    
     for i in range(day_count):
-        current_date = start_date + timedelta(days = i)
+        current_date = start_date + timedelta(days=i)
+        
+        # Generating data
         transactions_df, entries_df = generate_transactions(users, merchants, current_date)
+        settlements_df = generate_settlements(transactions_df) 
+        
+        # Appending to lists
         all_transactions.append(transactions_df)
         all_entries.append(entries_df)
+        all_settlements.append(settlements_df)
 
-    pd.concat(all_transactions).to_csv('data/raw/transactions.csv', index = False)
-    pd.concat(all_entries).to_csv('data/raw/entries.csv', index = False)
+    print('Processing and saving final datasets...')
 
-    print(f'Transaction generation complete. {sum(len(df) for df in all_transactions)} transactions have been created.')
-
-    print('Generating settlements...')
-    
+    # Concatenating + saving files
     full_transactions_df = pd.concat(all_transactions)
     full_entries_df = pd.concat(all_entries)
-    settlements_df = generate_settlements(full_transactions_df)
+    full_settlements_df = pd.concat(all_settlements)
 
-    full_entries_df.to_csv('data/raw/ledger_entries.csv', index = False)
-    settlements_df.to_csv('data/raw/settlements.csv', index = False)
+    full_transactions_df.to_csv('data/raw/transactions.csv', index=False)
+    full_entries_df.to_csv('data/raw/ledger_entries.csv', index=False)
+    full_settlements_df.to_csv('data/raw/settlements.csv', index=False)
 
-    print(f'{len(full_transactions_df)} transactions and {len(settlements_df)} settlements generated.')
+    print('Generation Complete:')
+    print(f'- {len(full_transactions_df):,} Transactions')
+    print(f'- {len(full_entries_df):,} Ledger Entries')
+    print(f'- {len(full_settlements_df):,} Settlements')
 
 if __name__ == '__main__':
     main()
