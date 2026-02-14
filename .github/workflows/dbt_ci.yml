@@ -1,20 +1,14 @@
 name: OpenLedger CI
 
-# Trigger on push to main or pull requests
 on:
   push:
-    branches:
-      - main
+    branches: ['main']
   pull_request:
-    branches:
-      - main
+    branches: ['main']
 
 jobs:
   dbt-build:
-    name: Run dbt build
     runs-on: ubuntu-latest
-
-    # Define secrets for the Linux runner
     env:
       SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
@@ -26,27 +20,19 @@ jobs:
       SNOWFLAKE_TARGET_SCHEMA: ANALYTICS
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install Dependencies
         run: |
           pip install dbt-snowflake
-          pip install -r requirements.txt || echo "No requirements.txt found"
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: install dbt deps
+      - name: Install dbt packages
         run: dbt deps --project-dir dbt
-      
-      - name: run dbt build
-        run: dbt build --project-dir dbt --profiles-dir dbt --target dbt --full-refresh
 
-      - name: run dbt debug
-        run: cd dbt && dbt debug
-
-      - name: run dbt test
-        run: cd dbt && dbt deps && dbt test
+      - name: Run dbt Build
+        run: dbt build --project-dir dbt --profiles-dir dbt --target dev --full-refresh
