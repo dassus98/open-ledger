@@ -22,7 +22,7 @@ def get_snowflake_connection():
         account=get_env_var('SNOWFLAKE_ACCOUNT'),
         warehouse=get_env_var('SNOWFLAKE_WAREHOUSE'),
         database=get_env_var('SNOWFLAKE_DATABASE'),
-        schema=get_env_var('SNOWFLAKE_SCHEMA'),
+        schema=get_env_var('SNOWFLAKE_SOURCE_SCHEMA'),
         role=get_env_var('SNOWFLAKE_ROLE')
     )
 

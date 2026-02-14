@@ -6,14 +6,33 @@ sources:
     schema: RAW
     tables:
       - name: transactions
+        description: "Raw transaction logs from the core banking ledger."
         loaded_at_field: event_time
         freshness:
           warn_after: {count: 24, period: hour}
           # error_after: {count: 48, period: hour}
-        description: "Raw transaction logs from the core banking ledger."
+        columns:
+          - name: transaction_id
+            tests:
+              - unique
+              - not_null
       - name: ledger_entries
         loaded_at_field: event_time
+        freshness:
+          warn_after: {count: 24, period: hour}
+          # error_after ...
+        columns:
+          - name: entry_id
+            tests:
+              - unique
+              - not_null
       - name: settlements
         loaded_at_field: settlement_date
         freshness:
           warn_after: {count: 24, period: hour}
+          # error_after ...
+        columns:
+          - name: settlement_id
+            tests:
+              - unique
+              - not_null

@@ -3,12 +3,15 @@ name: OpenLedger CI
 # Trigger on push to main or pull requests
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  test_pipeline:
+  dbt-build:
+    name: Run dbt build
     runs-on: ubuntu-latest
 
     # Define secrets for the Linux runner
@@ -19,9 +22,8 @@ jobs:
       SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
       SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
       SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
-      # Hardcoding schema for CI to avoid overwriting production data
-      # Not using temporary schema since this is just a project
-      SNOWFLAKE_SCHEMA: ANALYTICS
+      SNOWFLAKE_SOURCE_SCHEMA: RAW
+      SNOWFLAKE_TARGET_SCHEMA: ANALYTICS
 
     steps:
       - name: Checkout code
@@ -30,34 +32,21 @@ jobs:
       - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
       - name: Install Dependencies
         run: |
           pip install dbt-snowflake
           pip install -r requirements.txt || echo "No requirements.txt found"
 
-      - name: Configure dbt Profile
-        run: |
-          mkdir -p ~/.dbt
-          echo "
-          openledger:
-            target: dev
-            outputs:
-              dev:
-                type: snowflake
-                account: $SNOWFLAKE_ACCOUNT
-                user: $SNOWFLAKE_USER
-                password: $SNOWFLAKE_PASSWORD
-                role: $SNOWFLAKE_ROLE
-                warehouse: $SNOWFLAKE_WAREHOUSE
-                database: $SNOWFLAKE_DATABASE
-                schema: $SNOWFLAKE_SCHEMA
-                threads: 4
-          " > ~/.dbt/profiles.yml
+      - name: install dbt deps
+        run: dbt deps --project-dir dbt
+      
+      - name: run dbt build
+        run: dbt build --project-dir dbt --profiles-dir dbt --target dbt --full-refresh
 
-      - name: Run dbt Debug
+      - name: run dbt debug
         run: cd dbt && dbt debug
 
-      - name: Run dbt Tests
+      - name: run dbt test
         run: cd dbt && dbt deps && dbt test

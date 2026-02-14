@@ -9,6 +9,10 @@ models:
         tests:
           - unique
           - not_null
+      - name: total_debits
+        description: 'Sum of debits'
+      - name: total_credits
+        description: 'Sum of credits'
       - name: balance_delta
         description: 'Difference between debits and credits, should be 0.'
       - name: integrity_status

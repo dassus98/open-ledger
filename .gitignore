@@ -12,9 +12,10 @@ data/
 *.csv
 !data/.gitkeep  # Keep the folder structure, just not the files
 
-# dbt
+# dbt artifacts
 dbt/target/
 dbt/logs/
+dbt/dbt_packages/
 dbt/.user.yml
 **/*.log
 

@@ -11,13 +11,13 @@ cleaned AS (
         TRIM(merchant_id) AS merchant_id,
 
         -- Financials
-        TRY_CAST(gross_amount AS NUMBER(18, 2)) AS gross_amount,
-        TRY_CAST(fee_amount AS NUMBER(18, 2)) AS fee_amount,
-        TRY_CAST(net_amount AS NUMBER(18, 2)) AS net_amount,
+        CAST(gross_amount AS NUMBER(18, 2)) AS gross_amount,
+        CAST(fee_amount AS NUMBER(18, 2)) AS fee_amount,
+        CAST(net_amount AS NUMBER(18, 2)) AS net_amount,
         TRIM(currency) AS currency,
 
         -- Dates & Status
-        TRY_TO_DATE(settlement_date) AS settlement_date,
+        settlement_date,
         TRIM(processor_reference) AS processor_reference,
         LOWER(TRIM(status)) AS status,
         TRIM(discrepancy_reason) AS discrepancy_reason
