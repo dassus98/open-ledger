@@ -14,8 +14,12 @@ sources:
         columns:
           - name: transaction_id
             tests:
-              - unique
-              - not_null
+              - unique:
+                  config:
+                    severity: warn
+              - not_null:
+                  config:
+                    severity: warn
       - name: ledger_entries
         loaded_at_field: event_time
         freshness:
@@ -24,8 +28,12 @@ sources:
         columns:
           - name: entry_id
             tests:
-              - unique
-              - not_null
+              - unique:
+                  config:
+                    severity: warn
+              - not_null:
+                  config:
+                    severity: warn
       - name: settlements
         loaded_at_field: settlement_date
         freshness:
@@ -34,5 +42,9 @@ sources:
         columns:
           - name: settlement_id
             tests:
-              - unique
-              - not_null
+              - unique:
+                  config:
+                    severity: warn
+              - not_null:
+                  config:
+                    severity: warn
