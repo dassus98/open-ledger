@@ -33,7 +33,7 @@ pip install -r requirements.txt
 * dbt was chosen to enable modularity, documentation and version control for SQL. 
 * Jinja was incorporated to enable automatic schema changes (prod vs dev environments), incrementally update tables, and building DAGs.
 * Dagster was chosen over Airflow for its asset-based advantages (i.e. easier to connect a data pipeline), native integration with dbt, and faster debugging. Python scripts and dbt models were treated as Software-Defined Assets in this project.
-* Automated circuit breakers were incorporated to stop the pipeline if data quality tests fail (e.g. `not_null`, `unique`). For purposes of demonstration, the severity of the circuit breakers were kept as 'warn' rather than 'error.
+* Automated circuit breakers were incorporated to stop the pipeline if data quality tests fail (e.g. `not_null`, `unique`). For purposes of demonstration, the severity of the circuit breakers were kept as 'warn' rather than 'error'.
 
 ## Core Features
 * Decoupled ingestion and transformation layers managed by a single DAG. This allows for fault isolation (makes debugging easier), makes changing the business logic easier, and creates an identifiable audit trail.
