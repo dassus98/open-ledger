@@ -28,6 +28,7 @@ pip install -r requirements.txt
 ## Architecture
 **ELT Pipeline:** Python (Ingestion) → Snowflake (Storage) → dbt (Transformation) → Dagster (Orchestration)
 
+```mermaid
 flowchart LR
     subgraph Ingestion
         A[Python Generator] --> B[CSV Files]
@@ -54,6 +55,7 @@ flowchart LR
     end
 
     I --> K[Streamlit Dashboard]
+```
 
 * Python was used to generate realistic fintech transactions. Incorrect data was artificially incorporated to ensure that the pipeline is resilient and capable of handling errors.
 * Snowflake was chosen for its separation of storage and compute, which allows us to scale the system to larger quantities of data while efficiently keeping data ingestion and transformation apart.
