@@ -28,6 +28,7 @@ models:
               values: ['completed', 'failed', 'pending', 'declined']
 
   - name: stg_settlements
+    description: 'Cleaned settlement records from external payment processors'
     columns:
       - name: settlement_id
         description: 'Primary Key'
