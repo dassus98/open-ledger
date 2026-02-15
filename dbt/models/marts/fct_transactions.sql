@@ -33,6 +33,7 @@ joined AS (
         e.gross_amount AS bank_gross_amount,
         e.net_amount AS bank_settled_amount,
         e.fee_amount AS bank_fee,
+        e.status AS bank_settlement_status,
 
         -- Integrity check
         COALESCE(int.integrity_status, 'UNKNOWN') AS ledger_integrity,
@@ -57,7 +58,7 @@ SELECT
         WHEN internal_amount IS NULL AND bank_settled_amount IS NOT NULL THEN 'MISSING_INTERNAL'
         WHEN gross_match_delta > {{ var('reconciliation_tolerance') }} THEN 'GROSS_MISMATCH'
         WHEN settlement_math_delta > {{ var('reconciliation_tolerance') }} THEN 'SETTLEMENT_ERROR'
-        WHEN e.status = 'failed' THEN 'SETTLEMENT_FAILED'
+        WHEN bank_settlement_status = 'failed' THEN 'SETTLEMENT_FAILED'
         ELSE 'MATCHED'
     END AS reconciliation_status
 FROM joined

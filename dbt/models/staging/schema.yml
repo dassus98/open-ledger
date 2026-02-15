@@ -1,6 +1,36 @@
 version: 2
 
 models:
+  - name: stg_ledger_entries
+    description: 'Cleaned accounting records (debits, credits)'
+    columns:
+      - name: entry_id
+        description: 'Primary Key'
+        tests:
+          - unique
+          - not_null
+
+      - name: transaction_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_transactions')
+              field: transaction_id
+
+      - name: account_type
+        tests:
+          - accepted_values:
+              values: ['user', 'merchant']
+
+      - name: entry_type
+        tests:
+          - accepted_values:
+              values: ['debit', 'credit']
+
+      - name: amount
+        tests:
+          - not_null
+
   - name: stg_transactions
     description: 'Cleaned transaction logs'
     columns:
