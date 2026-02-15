@@ -57,6 +57,7 @@ SELECT
         WHEN internal_amount IS NULL AND bank_settled_amount IS NOT NULL THEN 'MISSING_INTERNAL'
         WHEN gross_match_delta > {{ var('reconciliation_tolerance') }} THEN 'GROSS_MISMATCH'
         WHEN settlement_math_delta > {{ var('reconciliation_tolerance') }} THEN 'SETTLEMENT_ERROR'
+        WHEN e.status = 'failed' THEN 'SETTLEMENT_FAILED'
         ELSE 'MATCHED'
     END AS reconciliation_status
 FROM joined
