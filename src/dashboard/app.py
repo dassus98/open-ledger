@@ -139,3 +139,7 @@ try:
 
 except Exception as exception:
     st.error(f'Snowflake connection has failed: {exception}.')
+
+finally:
+    if conn:
+        conn.close()
